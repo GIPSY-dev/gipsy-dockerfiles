@@ -1,0 +1,23 @@
+FROM ubuntu:18.04
+SHELL ["/bin/bash", "-c"]
+
+
+# Add dependencies
+RUN apt-get update && \
+	apt-get install --yes build-essential && \
+	apt-get install --yes openjdk-8-jdk && \
+	apt-get install --yes xterm && \
+	apt-get clean	
+
+# user
+RUN useradd -m gipsy && (echo gipsy:gipsy | chpasswd)
+USER gipsy
+
+# Setup GIPSY repository
+WORKDIR /home/gipsy
+
+COPY gipsy-src-json-encoder.tar.gz .
+RUN tar xzf gipsy-src-json-encoder.tar.gz && \
+  rm gipsy-src-json-encoder.tar.gz
+
+ENTRYPOINT ["src/gipsy/json/encoder/bin/jini/startRegularNode.sh"]
