@@ -16,8 +16,8 @@ USER gipsy
 # Setup GIPSY repository
 WORKDIR /home/gipsy
 
-COPY gipsy-src-json-encoder.tar.gz .
-RUN tar xzf gipsy-src-json-encoder.tar.gz && \
-  rm gipsy-src-json-encoder.tar.gz
+COPY gipsy-src-json-encoder.tgz .
+RUN tar xzf gipsy-src-json-encoder.tgz && \
+  rm gipsy-src-json-encoder.tgz
 
-ENTRYPOINT ["src/gipsy/json/encoder/bin/jini/startRegularNode.sh"]
+ENTRYPOINT ["./bin/multitier/startRegularNode.sh"]
