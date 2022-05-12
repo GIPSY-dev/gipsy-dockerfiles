@@ -1,0 +1,14 @@
+version: '3.3'
+services:
+    a59148e92692:
+        container_name: gipsy
+        network_mode: host
+        environment:
+            - DISPLAY
+        volumes:
+            - /tmp/.X11-unix
+        entrypoint:
+            - /bin/bash
+        image: a59148e92692
+        stdin_open: true
+        tty: true
