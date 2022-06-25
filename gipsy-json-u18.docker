@@ -24,4 +24,4 @@ COPY gipsy-src-json-encoder.tgz .
 RUN tar xzf gipsy-src-json-encoder.tgz && \
   rm gipsy-src-json-encoder.tgz
 
-ENTRYPOINT ["./gipsy-src-json-encoder/bin/multitier/startMARFCATGMTNode.sh"]
+ENTRYPOINT ["/bin/bash"]
