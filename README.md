@@ -39,3 +39,15 @@ docker pull s4lab/gipsy-json-u18
 sudo docker run -it --entrypoint /bin/bash efd813b45aa1
 sudo docker run -it --entrypoint /home/gipsy/gipsy-src-json-encoder/bin/multitier/startRegularNode.sh efd813b45aa1
 ```
+
+## References
+
+### Docker
+
+* [Lambdalabs Software Stack dockerfiles](https://github.com/NAG-DevOps/lambda-stack-dockerfiles)
+* [Official Isabelle distribution](https://hub.docker.com/r/makarius/isabelle)
+
+### Kubernetes
+
+* [Define a Command and Arguments for a Container](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/)
+* [Difference between Docker ENTRYPOINT and Kubernetes container spec COMMAND?](https://stackoverflow.com/questions/44316361/difference-between-docker-entrypoint-and-kubernetes-container-spec-command)
