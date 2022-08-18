@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   app:
-    container_name: gipsy-json-flucid
+    container_name: gipsy-isabelle-json
     network_mode: host
     environment:
         - DISPLAY
@@ -9,6 +9,6 @@ services:
         - /tmp/.X11-unix
     entrypoint:
         - /bin/bash
-    image: gipsy-json-u18:02-18.04
+    image: gipsy-isabelle-json:01
     stdin_open: true
     tty: true
