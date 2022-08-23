@@ -1,27 +1,38 @@
 FROM makarius/isabelle:latest
 SHELL ["/bin/bash", "-c"]
 
+# Switch back to root as the Isabelle image 
+# switched to the 'isabelle' user by default
+USER root
 
 # Add dependencies
 RUN apt-get update && \
 	apt-get install --yes build-essential && \
+	apt-get install --yes git && \
 	apt-get install --yes openjdk-8-jdk && \
 	apt-get install --yes xterm && \
 	apt-get install --yes iputils-ping && \
 	apt-get install --yes vim && \
 	apt-get install --yes net-tools && \
-	apt-get -y install xauth && \
+	apt-get install --yes xauth && \
 	apt-get clean	
 
-# user
+# Make sure the Isabelle installation is accessible
+# to the 'gipsy' user
+RUN chmod a+rwX -R /home/isabelle 
+
+# Set up our own user
 RUN useradd -m gipsy && (echo gipsy:gipsy | chpasswd)
 USER gipsy
 
-# Setup GIPSY repository
+# Setup GIPSY's repositories
 WORKDIR /home/gipsy
 
-COPY gipsy-src-json-encoder.tgz .
-RUN tar xzf gipsy-src-json-encoder.tgz && \
-  rm gipsy-src-json-encoder.tgz
+# build.sh prepares these on the host from the repos
+COPY gipsy-src-json-encoder .
+COPY formal-methods .
+
+# Inside the container you'd need your own ssh keys
+# to interact with git or use HTTPS
 
 ENTRYPOINT ["/bin/bash"]
