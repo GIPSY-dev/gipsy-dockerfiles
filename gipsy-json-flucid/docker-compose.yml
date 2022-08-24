@@ -9,6 +9,6 @@ services:
         - /tmp/.X11-unix
     entrypoint:
         - /bin/bash
-    image: gipsy-json-u18:02-18.04
+    image: gipsy-json-u18:03-18.04
     stdin_open: true
     tty: true

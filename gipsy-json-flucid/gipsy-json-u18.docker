@@ -5,23 +5,29 @@ SHELL ["/bin/bash", "-c"]
 # Add dependencies
 RUN apt-get update && \
 	apt-get install --yes build-essential && \
+	apt-get install --yes git && \
 	apt-get install --yes openjdk-8-jdk && \
 	apt-get install --yes xterm && \
 	apt-get install --yes iputils-ping && \
 	apt-get install --yes vim && \
 	apt-get install --yes net-tools && \
-	apt-get -y install xauth && \
+	apt-get install --yes xauth && \
+	apt-get install --yes sudo && \
 	apt-get clean	
 
-# user
+# Setup user + sudo
 RUN useradd -m gipsy && (echo gipsy:gipsy | chpasswd)
+RUN adduser gipsy sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER gipsy
 
 # Setup GIPSY repository
 WORKDIR /home/gipsy
 
-COPY gipsy-src-json-encoder.tgz .
-RUN tar xzf gipsy-src-json-encoder.tgz && \
-  rm gipsy-src-json-encoder.tgz
+# build.sh prepares this on the host from the repo
+COPY gipsy-src-json-encoder .
+
+# Inside the container you'd need your own ssh keys
+# to interact with git or use HTTPS
 
 ENTRYPOINT ["/bin/bash"]
