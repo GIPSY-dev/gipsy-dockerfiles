@@ -48,4 +48,8 @@ Thumbs.db
 *.mov
 *.wmv
 
+# GIPSY
 gipsy-src-json-encoder.tgz
+formal-methods
+gipsy-src-json-encoder
+
