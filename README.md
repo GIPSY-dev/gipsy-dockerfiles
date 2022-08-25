@@ -12,9 +12,10 @@ This repository is to keep a collection of our docker files for various projects
 ### Versions
 
 | Image               |      Tag      | GIPSY version | Notes      |
-|---------------------|:-------------:|--------------:|------------|
-| gipsy-json-u18      | :18.04        | [a0f17b3](gipsy-src-json-encoder/commits/a0f17b34f1b7f575027a47a671e1729daad4f8b9) | Integration branch, very minimal, no compose |
+|---------------------|:--------------|--------------:|------------|
+| gipsy-json-u18      | :03-18.04     | [716f159](gipsy-src-json-encoder/commits/716f1591e1795e7d2bf367bea73c49959ed80e70) | Better version than :18.04 with a few default fixes, xterm, compose, network |
 | gipsy-json-u18      | :02-18.04     | [a0f17b3](gipsy-src-json-encoder/commits/a0f17b34f1b7f575027a47a671e1729daad4f8b9) | Better version than :18.04 with a few default fixes, xterm, compose, network |
+| gipsy-json-u18      | :18.04        | [a0f17b3](gipsy-src-json-encoder/commits/a0f17b34f1b7f575027a47a671e1729daad4f8b9) | Integration branch, very minimal, no compose |
 | gipsy-isabelle-json | :01           | [a0f17b3](gipsy-src-json-encoder/commits/a0f17b34f1b7f575027a47a671e1729daad4f8b9) | First version, includes git |
 
 ## Bulding images
@@ -22,14 +23,22 @@ This repository is to keep a collection of our docker files for various projects
 To build the image:
 
 ```bash
-sudo docker build -t gipsy-json-u18:18.04 -f gipsy-json-u18.docker .
-sudo docker container ls
+cd <the appropriate directory>
+make
 sudo docker image ls
+```
+
+Manually, e.g.:
+
+```bash
+sudo docker build -t gipsy-json-u18:18.04 -f gipsy-json-u18.docker .
 ```
 
 This process is scripted in part with `build.sh` and a `Makefile`.
 
-To publish the image (tag proper sequential version like `03-18.04`, etc.):
+## Publishing images
+
+To publish the image (**tag proper sequential version, e.g., like `03-18.04` first**):
 
 ```bash
 sudo docker tag gipsy-json-u18:18.04 s4lab/gipsy-json-u18:18.04
@@ -37,22 +46,28 @@ sudo docker login
 sudo docker push s4lab/gipsy-json-u18:18.04
 ```
 
+## Using images
+
 To use the image:
 
-- pull:
+- pull a specific tag:
 
 ```bash
-docker pull s4lab/gipsy-json-u18
+docker pull s4lab/gipsy-json-u18:03-18.04
 ```
 
-- with the custom entry point (assuming `efd813b45aa1` is the hash it was built with):
+- with the custom entry point:
 
 ```bash
-sudo docker run -it --entrypoint /bin/bash efd813b45aa1
-sudo docker run -it --entrypoint /home/gipsy/gipsy-src-json-encoder/bin/multitier/startRegularNode.sh efd813b45aa1
+sudo docker run -it --entrypoint /bin/bash s4lab/gipsy-json-u18:03-18.04
+sudo docker run -it --entrypoint /home/gipsy/gipsy-src-json-encoder/bin/multitier/startRegularNode.sh s4lab/gipsy-json-u18:03-18.04
 ```
 
-`efd813b45aa1` can be replaced by a human-readable name like `s4lab/gipsy-json-u18:02-18.04`
+- as a `root` inside the container:
+
+```bash
+sudo docker exec -u root -it s4lab/gipsy-json-u18:03-18.04 /bin/bash
+```
 
 ## References
 
