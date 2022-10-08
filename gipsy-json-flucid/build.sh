@@ -1,8 +1,8 @@
 #!/bin/bash
 
-VERSION="03-18.04"
+VERSION="04-messy1-18.04"
 
-# Assumes ssh key was setup with ssh-keygen and uploaded
+# Assumes an ssh key was setup with ssh-keygen and uploaded
 # to https://bitbucket.org/account/settings/ssh-keys/
 if [ ! -d gipsy-src-json-encoder ]; then
   echo "Cloning a fresh shallow copy of gipsy-src-json-encoder, integration branch..."
