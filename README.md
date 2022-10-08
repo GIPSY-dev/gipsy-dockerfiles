@@ -5,18 +5,19 @@ This repository is to keep a collection of our docker files for various projects
 ## JSON-to-Forensic Lucid Encoders
 
 - `gipsy-json-flucid/gipsy-json-u18.docker` -- builds from the `gipsy-src-json-encoder` repo, `integration` branch. Based off Ubuntu 18
-    - public images: https://hub.docker.com/r/s4lab/gipsy-json-u18
+    - public images: https://hub.docker.com/r/s4lab/gipsy-json-u18/tags
 - `gipsy-isabelle-json/*` -- includes Isabelle/HOL (as a base, from the latest Ubuntu), with `gipsy-src-json-encoder` and `formal-methods` repos added
-    - public images: https://hub.docker.com/r/s4lab/gipsy-isabelle-json
+    - public images: https://hub.docker.com/r/s4lab/gipsy-isabelle-json/tags
 
 ### Versions
 
-| Image               |      Tag      | GIPSY version | Notes      |
-|---------------------|:--------------|--------------:|------------|
-| gipsy-json-u18      | :03-18.04     | [716f159](gipsy-src-json-encoder/commits/716f1591e1795e7d2bf367bea73c49959ed80e70) | Better version than :18.04 with a few default fixes, xterm, compose, network |
-| gipsy-json-u18      | :02-18.04     | [a0f17b3](gipsy-src-json-encoder/commits/a0f17b34f1b7f575027a47a671e1729daad4f8b9) | Better version than :18.04 with a few default fixes, xterm, compose, network |
-| gipsy-json-u18      | :18.04        | [a0f17b3](gipsy-src-json-encoder/commits/a0f17b34f1b7f575027a47a671e1729daad4f8b9) | Integration branch, very minimal, no compose |
-| gipsy-isabelle-json | :01           | [a0f17b3](gipsy-src-json-encoder/commits/a0f17b34f1b7f575027a47a671e1729daad4f8b9) | First version, includes git |
+| Image               |      Tag         | GIPSY version | Notes      |
+|---------------------|:-----------------|--------------:|------------|
+| gipsy-json-u18      | :04-messy1-18.04 | [42d116f (messy to be rewritten)](gipsy-src-json-encoder/commits/42d116f348ea4678d0b7dc1e2a5bb50c8453098a) | Messy version that now includes `JSONCONVERTERDGT` and `JSONCONVERTERDWT` |
+| gipsy-json-u18      | :03-18.04        | [716f159](gipsy-src-json-encoder/commits/716f1591e1795e7d2bf367bea73c49959ed80e70) | Better version than :18.04 with a few default fixes, xterm, compose, network |
+| gipsy-json-u18      | :02-18.04        | [a0f17b3](gipsy-src-json-encoder/commits/a0f17b34f1b7f575027a47a671e1729daad4f8b9) | Better version than :18.04 with a few default fixes, xterm, compose, network |
+| gipsy-json-u18      | :18.04           | [a0f17b3](gipsy-src-json-encoder/commits/a0f17b34f1b7f575027a47a671e1729daad4f8b9) | Integration branch, very minimal, no compose |
+| gipsy-isabelle-json | :01              | [a0f17b3](gipsy-src-json-encoder/commits/a0f17b34f1b7f575027a47a671e1729daad4f8b9) | First version, includes git |
 
 ## Bulding images
 
@@ -24,6 +25,7 @@ To build the image:
 
 ```bash
 cd <the appropriate directory>
+<edit the version in build.sh if necessary>
 make
 sudo docker image ls
 ```
@@ -31,19 +33,37 @@ sudo docker image ls
 Manually, e.g.:
 
 ```bash
-sudo docker build -t gipsy-json-u18:18.04 -f gipsy-json-u18.docker .
+sudo docker build -t gipsy-json-u18:04-messy1-18.04 -f gipsy-json-u18.docker .
 ```
 
 This process is scripted in part with `build.sh` and a `Makefile`.
 
 ## Publishing images
 
-To publish the image (**tag proper sequential version, e.g., like `03-18.04` first**):
+To publish the image (**tag proper sequential version, e.g., like `05-18.04` first**).
+
+### Docker registy
 
 ```bash
-sudo docker tag gipsy-json-u18:18.04 s4lab/gipsy-json-u18:18.04
+sudo docker tag gipsy-json-u18:04-messy1-18.04 s4lab/gipsy-json-u18:04-messy1-18.04
 sudo docker login
-sudo docker push s4lab/gipsy-json-u18:18.04
+sudo docker push s4lab/gipsy-json-u18:04-messy1-18.04
+```
+
+### GitHub registry
+
+```bash
+sudo docker tag gipsy-json-u18:04-messy1-18.04 ghcr.io/gipsy-dev/gipsy-json-u18:04-messy1-18.04
+sudo docker login ghcr.io
+sudo docker push ghcr.io/gipsy-dev/gipsy-json-u18:04-messy1-18.04
+```
+
+### On slow/unreliable connections
+
+Use regclient:
+
+```bash
+TODO
 ```
 
 ## Using images
@@ -52,15 +72,30 @@ To use the image:
 
 - pull a specific tag:
 
+From Docker Hub:
+
 ```bash
-docker pull s4lab/gipsy-json-u18:03-18.04
+docker pull s4lab/gipsy-json-u18:04-messy1-18.04
 ```
 
-- with the custom entry point:
+From GitHub:
 
 ```bash
-sudo docker run -it --entrypoint /bin/bash s4lab/gipsy-json-u18:03-18.04
-sudo docker run -it --entrypoint /home/gipsy/gipsy-src-json-encoder/bin/multitier/startRegularNode.sh s4lab/gipsy-json-u18:03-18.04
+docker pull ghcr.io/gipsy-dev/gipsy-json-u18:04-messy1-18.04
+```
+
+- running with or withoyt a custom entry point:
+
+```bash
+sudo docker run -it s4lab/gipsy-json-u18:04-messy1-18.04
+sudo docker run -it --entrypoint /bin/bash s4lab/gipsy-json-u18:04-messy1-18.04
+sudo docker run -it --entrypoint /home/gipsy/gipsy-src-json-encoder/bin/multitier/startRegularNode.sh s4lab/gipsy-json-u18:04-messy1-18.04
+```
+
+From Kubernetes:
+
+```bash
+TODO
 ```
 
 - as a `root` inside the container:
