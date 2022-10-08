@@ -42,7 +42,7 @@ This process is scripted in part with `build.sh` and a `Makefile`.
 
 To publish the image (**tag proper sequential version, e.g., like `05-18.04` first**).
 
-### Docker registy
+### DockerHub registry
 
 ```bash
 sudo docker tag gipsy-json-u18:04-messy1-18.04 s4lab/gipsy-json-u18:04-messy1-18.04
@@ -60,10 +60,29 @@ sudo docker push ghcr.io/gipsy-dev/gipsy-json-u18:04-messy1-18.04
 
 ### On slow/unreliable connections
 
-Use regclient:
+If some docker image layers fail repeatedly to upload, use regclient:
+
+- download regclient first:
 
 ```bash
-TODO
+curl -L https://github.com/regclient/regclient/releases/latest/download/regctl-linux-amd64 >regctl
+chmod 755 regctl
+```
+
+- for DockerHub
+
+```bash
+docker save s4lab/gipsy-json-u18:04-messy1-18.04 > image.tar
+./regctl image import s4lab/gipsy-json-u18:04-messy1-18.04 image.tar -v debug
+./regctl image inspect s4lab/gipsy-json-u18:04-messy1-18.04
+```
+
+- for GitHub
+
+```bash
+docker save ghcr.io/gipsy-dev/gipsy-json-u18:04-messy1-18.04 > image.tar
+./regctl image import ghcr.io/gipsy-dev/gipsy-json-u18:04-messy1-18.04 image.tar -v debug
+./regctl image inspect ghcr.io/gipsy-dev/gipsy-json-u18:04-messy1-18.04
 ```
 
 ## Using images
@@ -101,7 +120,7 @@ TODO
 - as a `root` inside the container:
 
 ```bash
-sudo docker exec -u root -it s4lab/gipsy-json-u18:03-18.04 /bin/bash
+sudo docker exec -u root -it s4lab/gipsy-json-u18::04-messy1-18.04 /bin/bash
 ```
 
 ## References
