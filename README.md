@@ -91,7 +91,7 @@ To use the image:
 
 - pull a specific tag:
 
-From Docker Hub:
+From DockerHub:
 
 ```bash
 docker pull s4lab/gipsy-json-u18:04-messy1-18.04
@@ -103,7 +103,7 @@ From GitHub:
 docker pull ghcr.io/gipsy-dev/gipsy-json-u18:04-messy1-18.04
 ```
 
-- running with or withoyt a custom entry point:
+- running with or without a custom entry point:
 
 ```bash
 sudo docker run -it s4lab/gipsy-json-u18:04-messy1-18.04
